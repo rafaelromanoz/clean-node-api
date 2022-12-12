@@ -157,6 +157,8 @@ describe('SignUp Controller', () => {
       .mockImplementationOnce(() => {
         throw new Error()
       })
+    const fakeError = new Error()
+    fakeError.stack = 'any_stack'
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -167,7 +169,7 @@ describe('SignUp Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse?.statusCode).toBe(500)
-    expect(httpResponse?.body).toEqual(new ServerError(null))
+    expect(httpResponse?.body).toEqual(new ServerError(fakeError.stack))
   })
 
   test('Should call AddAccount with correct values', async () => {
@@ -194,6 +196,8 @@ describe('SignUp Controller', () => {
     jest.spyOn(addAccountStub, 'add').mockImplementationOnce(async () => {
       return new Promise((resolve, reject) => reject(new Error()))
     })
+    const fakeError = new Error()
+    fakeError.stack = 'any_stack'
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -204,7 +208,7 @@ describe('SignUp Controller', () => {
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse?.statusCode).toBe(500)
-    expect(httpResponse?.body).toEqual(new ServerError(null))
+    expect(httpResponse?.body).toEqual(new ServerError(fakeError.stack))
   })
 
   test('Should return 200 if valid data is provided', async () => {

@@ -6,9 +6,10 @@ import { EmailValidator } from '../signup/signup-protocols'
 export class LoginController implements Controller {
   constructor (private readonly emailValidator: EmailValidator) {}
   async handle (httpRequest: HttpRequest): Promise<any> {
-    if (!httpRequest.body.email) {
+    const { email, password } = httpRequest.body
+    if (!email) {
       return badRequest(new MissingParamError('email'))
-    } if (!httpRequest.body.password) {
+    } if (!password) {
       return badRequest(new MissingParamError('password'))
     }
     const isvalid = this.emailValidator.isValid(httpRequest.body.email)

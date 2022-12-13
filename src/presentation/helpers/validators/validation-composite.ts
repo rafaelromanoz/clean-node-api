@@ -4,10 +4,12 @@ export class ValidationComposite implements Validation {
   constructor (private readonly validations: Validation[]) { }
 
   validate (input: any): Error | null {
-    this.validations.forEach((validation) => {
+    for (const validation of this.validations) {
       const error = validation.validate(input)
-      if (error) return error
-    })
+      if (error) {
+        return error
+      }
+    }
     return null
   }
 }

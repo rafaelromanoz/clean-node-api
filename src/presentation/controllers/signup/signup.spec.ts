@@ -5,7 +5,8 @@ import {
   AccountModel,
   AddAccount,
   AddAccountModel,
-  HttpRequest
+  HttpRequest,
+  Validation
 } from './signup-protocols'
 
 const makeEmailValidator = (): EmailValidator => {
@@ -41,20 +42,32 @@ const makeAddAccount = (): AddAccount => {
   return new AddAccountStub()
 }
 
+const makeValidation = (): Validation => {
+  class ValidationStub implements Validation {
+    validate (input: any): Error {
+      return new Error()
+    }
+  }
+  return new ValidationStub()
+}
+
 interface SutTypes {
   sut: SignUpController
   emailValidatorStub: EmailValidator
   addAccountStub: AddAccount
+  validationStub: Validation
 }
 
 const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator()
   const addAccountStub = makeAddAccount()
-  const sut = new SignUpController(emailValidatorStub, addAccountStub)
+  const validationStub = makeValidation()
+  const sut = new SignUpController(emailValidatorStub, addAccountStub, validationStub)
   return {
     sut,
     emailValidatorStub,
-    addAccountStub
+    addAccountStub,
+    validationStub
   }
 }
 
@@ -191,5 +204,12 @@ describe('SignUp Controller', () => {
       email: 'valid_email@mail.com',
       password: 'valid_password'
     })
+  })
+
+  test('Should call validation with correct value', async () => {
+    const { sut, validationStub } = makeSut()
+    const validateSpy = jest.spyOn(validationStub, 'validate')
+    await sut.handle(makeFakeRequest())
+    expect(validateSpy).toHaveBeenCalledWith(makeFakeRequest().body)
   })
 })

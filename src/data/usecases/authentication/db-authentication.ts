@@ -1,10 +1,10 @@
+import { UpdateAccessTokenRepository } from 'data/protocols/db/account/update-access-token-repository'
 import {
   Authentication,
   AuthenticationModel,
   LoadAccountByEmailRepository,
   Encrypter,
-  HashCompare,
-  UpdateAccessTokenRepository
+  HashCompare
 } from './db-authentication-protocols'
 
 export class DbAuthentication implements Authentication {

@@ -10,4 +10,11 @@
     "noImplicitReturns": false,
     "baseUrl": "src",
   },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
 }

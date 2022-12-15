@@ -1,4 +1,4 @@
-import { UpdateAccessTokenRepository } from 'data/protocols/db/account/update-access-token-repository'
+import { UpdateAccessTokenRepository } from '../../../data/protocols/db/account/update-access-token-repository'
 import { DbAuthentication } from './db-authentication'
 import {
   HashCompare,
@@ -101,8 +101,9 @@ describe('DbAuthentication Usecase', () => {
 
   test('Should return null if LoadAccountByEmailRepository returns null', async () => {
     const { loadAccountByEmailRepositoryStub, sut } = makeSut()
-    // @ts-expect-error
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(null)
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockImplementationOnce(async () => {
+      return new Promise((resolve) => resolve(null))
+    })
     const acessToken = await sut.auth(makeFakeAuthentication())
     expect(acessToken).toBeNull()
   })

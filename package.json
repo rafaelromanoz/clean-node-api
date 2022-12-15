@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "sucrase-node src/main/server.ts",
-    "start": "node dist/main/server.ts",
+    "start": "node dist/main/server.js",
     "build": "rimraf dist && tsc",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand --forceExit",
     "test:verbose": "jest --passWithNoTests --runInBand",
@@ -50,7 +50,7 @@
   "dependencies": {
     "bcrypt": "^5.1.0",
     "express": "^4.18.2",
-    "fast-glob": "^3.2.12",
+    "fast-glob": "3.2.12",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.12.1",
     "validator": "^13.7.0"

@@ -4,4 +4,4 @@ WORKDIR /usr/src/clean-node-api
 
 COPY ./package.json .
 
-RUN npm install --production
+RUN npm install --omit=dev

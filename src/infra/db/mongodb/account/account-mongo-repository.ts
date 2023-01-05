@@ -46,7 +46,10 @@ export class AccountMongoRepository implements
       accessToken: token,
       role
     })
-    const id = new ObjectId(account?._id).toString()
-    return MongoHelper.map(account, id)
+    if (account) {
+      const id = new ObjectId(account?._id).toString()
+      return MongoHelper.map(account, id)
+    }
+    return null
   }
 }

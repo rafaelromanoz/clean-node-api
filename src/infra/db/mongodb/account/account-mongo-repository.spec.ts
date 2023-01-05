@@ -29,10 +29,10 @@ describe('Account Mongo Repository', () => {
       password: 'valid_password'
     })
     expect(account).toBeTruthy()
-    expect(account.id).toBeTruthy()
-    expect(account.name).toBe('valid_name')
-    expect(account.email).toBe('valid_email')
-    expect(account.password).toBe('valid_password')
+    expect(account?.id).toBeTruthy()
+    expect(account?.name).toBe('valid_name')
+    expect(account?.email).toBe('valid_email')
+    expect(account?.password).toBe('valid_password')
   })
 
   test('Should return an account on load by email success', async () => {
@@ -101,6 +101,12 @@ describe('Account Mongo Repository', () => {
       expect(account?.name).toBe('any_name')
       expect(account?.email).toBe('any_email@mail.com')
       expect(account?.password).toBe('any_password')
+    })
+
+    test('Should return null if dont found user by token', async () => {
+      const sut = makeSut()
+      const account = await sut.loadByToken('any_token')
+      expect(account).toBeFalsy()
     })
   })
 })

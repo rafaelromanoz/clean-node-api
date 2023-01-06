@@ -1,4 +1,4 @@
-import { badRequest, noContent, serverError } from './../../../helpers/http/http-helper'
+import { badRequest, noContent, serverError } from '../../../helpers/http/http-helper'
 import { HttpRequest, Validation, AddSurveyModel, AddSurvey } from './add-survey-controller-protocols'
 import { AddSurveyController } from './add-survey-controller'
 import MockDate from 'mockdate'
@@ -54,7 +54,7 @@ describe('AddSurveyController', () => {
     MockDate.set(new Date())
   })
 
-  beforeAll(() => {
+  afterAll(() => {
     MockDate.reset()
   })
   test('Should call validation with correct values', async () => {

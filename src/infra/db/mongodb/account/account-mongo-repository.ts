@@ -44,7 +44,13 @@ export class AccountMongoRepository implements
     const accountCollection = await MongoHelper.getCollection('accounts')
     const account = await accountCollection.findOne({
       accessToken: token,
-      role
+      $or: [
+        {
+          role
+        }, {
+          role: 'admin'
+        }
+      ]
     })
     if (account) {
       const id = new ObjectId(account?._id).toString()

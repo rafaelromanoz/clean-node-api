@@ -9,7 +9,7 @@
     "build": "rimraf dist && tsc",
     "tsc:watch": "tsc -w",
     "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
-    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand --forceExit",
+    "test": "jest --passWithNoTests --noStackTrace --runInBand --forceExit",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "down": "docker-compose down",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",

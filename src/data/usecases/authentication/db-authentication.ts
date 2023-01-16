@@ -1,4 +1,4 @@
-import { UpdateAccessTokenRepository } from '../../../data/protocols/db/account/update-access-token-repository'
+import { UpdateAccessTokenRepository } from '@/data/protocols/db/account/update-access-token-repository'
 
 import {
   Authentication,

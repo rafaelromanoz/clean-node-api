@@ -32,7 +32,7 @@ const makeLoadSurveysRepositoryStub = (): LoadSurveysRepository => {
   return new LoadSurveysRepositoryStub()
 }
 
-export interface SutTypes {
+type SutTypes = {
   sut: DbLoadSurveys
   loadSurveysRepositoryStub: LoadSurveysRepository
 }

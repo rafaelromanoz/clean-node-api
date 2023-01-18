@@ -12,21 +12,25 @@ export class AccountMongoRepository implements
   LoadAccountByEmailRepository,
   UpdateAccessTokenRepository,
   LoadAccountByTokenRepository {
-  async add (accountData: AddAccountModel): Promise<AccountModel> {
+  async add (accountData: AddAccountModel): Promise<AccountModel | null> {
     const accountCollection = await MongoHelper.getCollection('accounts')
-    const result = await accountCollection.insertOne(accountData)
-    const accountId = result.insertedId.toString()
-    return MongoHelper.map(accountData, accountId)
-  }
-
-  async loadByEmail (email: string): Promise<AccountModel | null> {
-    const accountCollection = await MongoHelper.getCollection('accounts')
-    const account = await accountCollection.findOne({ email })
-    if (account) {
-      const id = new ObjectId(account?._id).toString()
-      return MongoHelper.map(account, id)
+    const account = await accountCollection.insertOne(accountData)
+    const result = await accountCollection.findOne({ _id: account.insertedId })
+    if (result) {
+      return {
+        email: result.email,
+        id: result._id.toHexString(),
+        name: result.name,
+        password: result.password
+      }
     }
     return null
+  }
+
+  async loadByEmail (email: string): Promise<AccountModel> {
+    const accountCollection = await MongoHelper.getCollection('accounts')
+    const account = await accountCollection.findOne({ email })
+    return account && MongoHelper.map(account)
   }
 
   async updateAccessToken (id: string, token: string): Promise<void> {
@@ -40,7 +44,7 @@ export class AccountMongoRepository implements
     })
   }
 
-  async loadByToken (token: string, role?: string): Promise<AccountModel | null> {
+  async loadByToken (token: string, role?: string): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts')
     const account = await accountCollection.findOne({
       accessToken: token,
@@ -52,10 +56,6 @@ export class AccountMongoRepository implements
         }
       ]
     })
-    if (account) {
-      const id = new ObjectId(account?._id).toString()
-      return MongoHelper.map(account, id)
-    }
-    return null
+    return account && MongoHelper.map(account)
   }
 }

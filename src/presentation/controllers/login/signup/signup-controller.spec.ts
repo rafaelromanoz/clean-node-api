@@ -39,7 +39,7 @@ const makeAddAccount = (): AddAccount => {
         email: 'valid_email@mail.com',
         password: 'valid_password'
       }
-      return new Promise(resolve => resolve(fakeAccount))
+      return Promise.resolve(fakeAccount)
     }
   }
   return new AddAccountStub()
@@ -57,7 +57,7 @@ const makeValidation = (): Validation => {
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
     async auth (authentication: AuthenticationParams): Promise<string> {
-      return new Promise(resolve => resolve('any_token'))
+      return Promise.resolve('any_token')
     }
   }
   return new AuthenticationStub()
@@ -118,7 +118,7 @@ describe('SignUp Controller', () => {
 
   test('Should return 200 if valid data is provided', async () => {
     const { sut, addAccountStub } = makeSut()
-    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(new Promise(resolve => resolve(null as unknown as AccountModel)))
+    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(Promise.resolve(null as unknown as AccountModel))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
   })

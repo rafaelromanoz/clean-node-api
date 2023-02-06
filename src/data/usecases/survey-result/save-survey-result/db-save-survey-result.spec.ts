@@ -20,7 +20,7 @@ const makeFakeSurveyResult = (): SurveyResultModel => Object.assign({}, makeFake
 const makeSaveSurveyResultRepositoryStub = (): SaveSurveyResultRepository => {
   class SaveSurveyResultRepositoryStub implements SaveSurveyResultRepository {
     async save (data: SaveSurveyResultModel): Promise<SurveyResultModel> {
-      return new Promise(resolve => resolve(makeFakeSurveyResult()))
+      return Promise.resolve(makeFakeSurveyResult())
     }
   }
   return new SaveSurveyResultRepositoryStub()

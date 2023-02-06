@@ -21,7 +21,7 @@ const makeController = (): Controller => {
           passwordConfirmation: '123'
         }
       }
-      return new Promise(resolve => resolve(httpResponse))
+      return Promise.resolve(httpResponse)
     }
   }
   return new ControllerStub()
@@ -30,7 +30,7 @@ const makeController = (): Controller => {
 const makeLogErrorRepository = (): LogErrorRepository => {
   class LogErrorRepositoryStub implements LogErrorRepository {
     async log (stackError: string): Promise<void> {
-      return new Promise(resolve => resolve())
+      return Promise.resolve()
     }
   }
   return new LogErrorRepositoryStub()
@@ -84,7 +84,7 @@ describe('LogController Decorator', () => {
     const error = serverError(fakeError)
     const logSpy = jest.spyOn(logErrorRepositoryStub, 'log')
     jest.spyOn(controllerStub, 'handle')
-      .mockReturnValueOnce(new Promise(resolve => resolve(error)))
+      .mockReturnValueOnce(Promise.resolve(error))
     const httpRequest = {
       body: {
         email: 'any_mail@mail.com ',
